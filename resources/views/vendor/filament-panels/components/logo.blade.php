@@ -1,1 +1,1 @@
-<h1 class="font-bold font-mono text-3xl">LELESEGAR</h1>
+<h1 class="font-bold font-mono text-3xl">Laporan Keuangan</h1>

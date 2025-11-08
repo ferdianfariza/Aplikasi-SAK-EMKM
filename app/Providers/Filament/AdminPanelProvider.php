@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->brandName('LELESEGAR')
+            ->brandName('Laporan Keuangan')
             ->favicon(asset('favicon.png'))
             ->default()
             ->id('admin')
@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
-                OrderStats::class,
+                //OrderStats::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->middleware([

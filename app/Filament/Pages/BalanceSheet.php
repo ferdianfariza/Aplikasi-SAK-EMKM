@@ -12,6 +12,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Illuminate\Support\Facades\DB;
 
 class BalanceSheet extends Page implements HasForms
 {
@@ -70,10 +71,10 @@ class BalanceSheet extends Page implements HasForms
         // Get total income and expenses
         $totalIncome = IncomeTransaction::where('transaction_date', '<=', $asOfDate)->sum('amount');
         $totalExpenses = ExpenseTransaction::where('transaction_date', '<=', $asOfDate)->sum('amount');
-        
         // Get raw material purchases (total value of raw materials purchased)
         $rawMaterialPurchases = \App\Models\RawMaterial::where('created_at', '<=', $asOfDate)
-            ->sum(\DB::raw('beginning_stock * price_per_unit'));
+            ->sum(DB::raw('beginning_stock * price_per_unit'));
+            // ->sum(\DB::raw('beginning_stock * price_per_unit'));
 
         // Cash = total income - total expenses - raw material purchases
         $cash = $totalIncome - $totalExpenses - $rawMaterialPurchases;
