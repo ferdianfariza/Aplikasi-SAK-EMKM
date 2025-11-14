@@ -19,7 +19,7 @@ class EquityTransactionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup = 'Setup Awal';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
     protected static bool $shouldRegisterNavigation = false; // Hide from navigation
 
     public static function getNavigationLabel(): string
