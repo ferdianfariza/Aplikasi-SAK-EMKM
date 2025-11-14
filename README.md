@@ -8,7 +8,7 @@ Laravel 12.0 Ke Atas
 
 
 ## Clone this project 
-`git clone https://github.com/ferdianfariza/lelesegar.com.git`
+`git clone https://github.com/ferdianfariza/Aplikasi-SAK-EMKM.git`
 
 ## Open file directory and install dependencies
 `composer install`
