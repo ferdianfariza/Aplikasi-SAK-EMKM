@@ -96,8 +96,10 @@ class BalanceSheet extends Page implements HasForms
         // Get assets value from Asset table (for depreciation tracking)
         $assetsValue = Asset::where('purchase_date', '<=', $asOfDate)->sum('current_value');
 
+        $totalAssetsSetup = $assetsValue + $fixedAssetsFromExpenses;
+
         // Total assets = Cash + Raw Material Inventory + Fixed Assets
-        $totalAssets = $cash + $rawMaterialInventoryValue + $fixedAssetsFromExpenses;
+        $totalAssets = $cash + $rawMaterialInventoryValue + $fixedAssetsFromExpenses + $totalAssetsSetup;
 
         // Calculate equity from Equity Statement ending equity
         // Get sales revenue and expenses for the period
@@ -123,6 +125,7 @@ class BalanceSheet extends Page implements HasForms
             'cash' => $cash,
             'raw_material_inventory_value' => $rawMaterialInventoryValue,
             'fixed_assets_value' => $fixedAssetsFromExpenses,
+            'fixed_assets_value_total' => $totalAssetsSetup,
             'assets_value' => $assetsValue,
             'total_assets' => $totalAssets,
             'total_liabilities' => $totalLiabilities,

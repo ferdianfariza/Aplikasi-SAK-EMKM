@@ -54,7 +54,7 @@
                         
                         <div class="flex justify-between ml-4">
                             <span>Peralatan, Bangunan, Kendaraan</span>
-                            <span class="font-medium">Rp {{ number_format($data['fixed_assets_value'], 0, ',', '.') }}</span>
+                            <span class="font-medium">Rp {{ number_format($data['fixed_assets_value_total'], 0, ',', '.') }}</span>
                         </div>
                     </div>
 
