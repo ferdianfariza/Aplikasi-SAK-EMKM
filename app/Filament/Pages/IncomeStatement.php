@@ -9,10 +9,12 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use App\Traits\GeneratesPDF;
 
 class IncomeStatement extends Page implements HasForms
 {
     use InteractsWithForms;
+    use GeneratesPDF;
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
     protected static ?string $navigationGroup = 'Laporan';
@@ -132,5 +134,24 @@ class IncomeStatement extends Page implements HasForms
             'start_date' => $startDate,
             'end_date' => $endDate,
         ];
+    }
+
+    /**
+     * Export Income Statement to PDF
+     */
+    public function exportPDF()
+    {
+        $data = $this->getData();
+        
+        // Format dates for PDF header
+        $endDate = \Carbon\Carbon::parse($data['end_date']);
+        $monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $data['end_date_formatted'] = $endDate->format('d') . ' ' . $monthNames[$endDate->month - 1] . ' ' . $endDate->format('Y');
+        
+        return $this->generatePDF(
+            'pdf.income-statement',
+            ['data' => $data],
+            'Laporan_Laba_Rugi_' . date('Y-m-d_His') . '.pdf'
+        );
     }
 }

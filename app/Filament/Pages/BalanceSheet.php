@@ -4,8 +4,6 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use App\Models\Asset;
-use App\Models\Inventory;
-use App\Models\EquityTransaction;
 use App\Models\IncomeTransaction;
 use App\Models\ExpenseTransaction;
 use Filament\Forms\Components\DatePicker;
@@ -13,10 +11,12 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Illuminate\Support\Facades\DB;
+use App\Traits\GeneratesPDF;
 
 class BalanceSheet extends Page implements HasForms
 {
     use InteractsWithForms;
+    use GeneratesPDF;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationGroup = 'Laporan';
@@ -135,5 +135,24 @@ class BalanceSheet extends Page implements HasForms
             'total_equity' => $totalEquity,
             'as_of_date' => $asOfDate,
         ];
+    }
+
+    /**
+     * Export Balance Sheet to PDF
+     */
+    public function exportPDF()
+    {
+        $data = $this->getData();
+        
+        // Format dates for PDF header
+        $asOfDate = \Carbon\Carbon::parse($data['as_of_date']);
+        $monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $data['as_of_date_formatted'] = $asOfDate->format('d') . ' ' . $monthNames[$asOfDate->month - 1] . ' ' . $asOfDate->format('Y');
+        
+        return $this->generatePDF(
+            'pdf.balance-sheet',
+            ['data' => $data],
+            'Laporan_Posisi_Keuangan_' . date('Y-m-d_His') . '.pdf'
+        );
     }
 }

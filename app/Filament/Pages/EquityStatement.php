@@ -10,10 +10,12 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use App\Traits\GeneratesPDF;
 
 class EquityStatement extends Page implements HasForms
 {
     use InteractsWithForms;
+    use GeneratesPDF;
 
     protected static ?string $navigationIcon = 'heroicon-o-scale';
     protected static ?string $navigationGroup = 'Laporan';
@@ -99,5 +101,24 @@ class EquityStatement extends Page implements HasForms
             'start_date' => $startDate,
             'end_date' => $endDate,
         ];
+    }
+
+    /**
+     * Export Equity Statement to PDF
+     */
+    public function exportPDF()
+    {
+        $data = $this->getData();
+        
+        // Format dates for PDF header
+        $endDate = \Carbon\Carbon::parse($data['end_date']);
+        $monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $data['end_date_formatted'] = $endDate->format('d') . ' ' . $monthNames[$endDate->month - 1] . ' ' . $endDate->format('Y');
+        
+        return $this->generatePDF(
+            'pdf.equity-statement',
+            ['data' => $data],
+            'Laporan_Perubahan_Ekuitas_' . date('Y-m-d_His') . '.pdf'
+        );
     }
 }

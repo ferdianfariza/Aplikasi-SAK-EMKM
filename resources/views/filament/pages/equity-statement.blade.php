@@ -9,9 +9,16 @@
             <form wire:submit.prevent="$refresh">
                 {{ $this->form }}
                 
-                <div class="mt-4">
+                <div class="mt-4 flex gap-2">
                     <x-filament::button type="submit">
                         Tampilkan Laporan
+                    </x-filament::button>
+                    <x-filament::button 
+                        wire:click="exportPDF" 
+                        type="button"
+                        color="success"
+                    >
+                        Unduh PDF
                     </x-filament::button>
                 </div>
             </form>
